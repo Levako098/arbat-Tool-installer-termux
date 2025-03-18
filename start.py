@@ -263,8 +263,26 @@ async def home(message: types.Message):
             )
 @dp.callback_query_handler(lambda call: call.data == 'profile')
 async def profile(call: types.CallbackQuery):
-    await bot.answer_callback_query(call.id)  # Ответ на callback, чтобы убрать "часики" на кнопке
-    await bot.send_message(call.from_user.id, "123")
+    user_id = call.from_user.id  # Получаем ID пользователя
+    user_name = call.from_user.full_name  # Получаем имя пользователя
+
+    # Проверяем, есть ли у пользователя подписка
+    has_subscription = await subscribe_check(user_id)
+
+    # Формируем текст сообщения
+    subscription_status = "есть" if has_subscription else "нету"
+    message_text = (
+        f"💎 Имя : {user_name}\n"
+        f"🆔 Id : {user_id}\n"
+        f"👨‍💻 Подписка : {subscription_status}"
+    )
+
+    # Отправляем или редактируем сообщение
+    await bot.edit_message_text(
+        chat_id=call.message.chat.id,
+        message_id=call.message.message_id,
+        text=message_text
+    )
         
 @dp.callback_query_handler(lambda call: call.data == 'buy')
 async def buy(call: types.CallbackQuery):
