@@ -261,35 +261,13 @@ async def home(message: types.Message):
                 reply_markup=markup,
                 parse_mode='HTML'
             )
-
 @dp.callback_query_handler(lambda call: call.data == 'profile')
 async def profile(call: types.CallbackQuery):
-    # Проверяем, есть ли у пользователя подписка
-    check = await subscribe_check(call.from_user.id)
-    text = await check_subcribe_status(call.from_user.id)  # Получаем статус подписки и профиля
-
-    markup = types.InlineKeyboardMarkup(row_width=1)
-
-    # Если у пользователя есть подписка, добавляем кнопки для продления и других опций
-    if check:
-        markup.add(types.InlineKeyboardButton(f"Продлить Подписку", callback_data=f"buy"))
-    else:
-        # Если подписки нет, только кнопка для покупки
-        markup.add(types.InlineKeyboardButton(f"Купить Подписку", callback_data=f"buy"))
-
-    # Кнопки для других опций, доступных всем пользователям
-    markup.add(types.InlineKeyboardButton(f"Промокод", callback_data=f"promo"))
-    markup.add(types.InlineKeyboardButton(f"Меню", callback_data=f"back"))
-
-    # Редактируем сообщение с профилем и статусом подписки
-    await bot.edit_message_caption(
+    await bot.edit_message_text(
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,
-        caption=text,  # Профиль и статус подписки
-        reply_markup=markup,  # Кнопки
-        parse_mode="HTML"
+        text="123"
     )
-
         
 @dp.callback_query_handler(lambda call: call.data == 'buy')
 async def buy(call: types.CallbackQuery):
