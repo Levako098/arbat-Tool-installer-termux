@@ -277,11 +277,10 @@ async def profile(call: types.CallbackQuery):
         f"👨‍💻 Подписка : {subscription_status}"
     )
 
-    # Отправляем или редактируем сообщение
-    await bot.edit_message_text(
-        chat_id=call.message.chat.id,
-        message_id=call.message.message_id,
-        text=message_text
+    # Отправляем новое сообщение
+    await bot.send_message(
+        chat_id=call.message.chat.id,  # ID чата, куда отправляем сообщение
+        text=message_text  # Текст сообщения
     )
         
 @dp.callback_query_handler(lambda call: call.data == 'buy')
