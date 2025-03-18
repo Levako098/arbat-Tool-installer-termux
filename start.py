@@ -263,11 +263,8 @@ async def home(message: types.Message):
             )
 @dp.callback_query_handler(lambda call: call.data == 'profile')
 async def profile(call: types.CallbackQuery):
-    await bot.edit_message_text(
-        chat_id=call.message.chat.id,
-        message_id=call.message.message_id,
-        text="123"
-    )
+    await bot.answer_callback_query(call.id)  # Ответ на callback, чтобы убрать "часики" на кнопке
+    await bot.send_message(call.from_user.id, "123")
         
 @dp.callback_query_handler(lambda call: call.data == 'buy')
 async def buy(call: types.CallbackQuery):
